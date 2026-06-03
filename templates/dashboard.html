@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancer Mortality Predictor</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>Cancer Mortality Forecasting Dashboard</h1>
+        <p>Explore 1999–2021 cancer mortality data with an interactive U.S. map. Select a cancer site and click a state to view predictions.</p>
+    </div>
+
+    <div class="container">
+        <div class="control-panel">
+            <label for="cancer-site-select">Select leading cancer site:</label>
+            <select id="cancer-site-select" onchange="updateMap()">
+                <option value="">Loading sites...</option>
+            </select>
+        </div>
+
+        <div class="metrics-row">
+            <div class="metric">
+                <span class="metric-label">Dataset rows</span>
+                <span class="metric-value" id="metric-rows">—</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">State-site pairs</span>
+                <span class="metric-value" id="metric-pairs">—</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Model R²</span>
+                <span class="metric-value" id="metric-r2">—</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Mean Absolute Error</span>
+                <span class="metric-value" id="metric-mae">—</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="map-container">
+                <h2>Interactive U.S. Cancer Mortality Heat Map</h2>
+                <div id="choropleth-map"></div>
+            </div>
+
+            <div class="sidebar">
+                <div class="state-selector-panel">
+                    <h3>Or choose a state manually</h3>
+                    <select id="state-select" onchange="handleStateSelect()">
+                        <option value="">Select a state...</option>
+                    </select>
+                </div>
+
+                <div class="prediction-panel" id="prediction-panel" style="display: none;">
+                    <h3>Prediction Results</h3>
+                    <div class="result-item">
+                        <span class="label">Selected State</span>
+                        <span class="value" id="result-state">—</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Cancer Site</span>
+                        <span class="value" id="result-site">—</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Predicted Deaths</span>
+                        <span class="value highlight" id="result-predicted">—</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Actual Aggregated Deaths</span>
+                        <span class="value" id="result-actual">—</span>
+                    </div>
+                </div>
+
+                <div class="info-panel" id="info-panel">
+                    <p>👉 Click a state on the map or select one from the dropdown to view a prediction.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
